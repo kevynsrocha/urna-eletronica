@@ -37,7 +37,7 @@ function atualizaInterface() {
             return false;
         }
     });
-    if(candidato.lenght > 0) {
+    if(candidato.length > 0) {
         candidato = candidato[0];
         seuVotoPara.style.display = 'block';
         aviso.style.display = 'block';
