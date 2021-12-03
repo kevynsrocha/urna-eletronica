@@ -92,7 +92,7 @@ function corrige () {
 function confirma () {
     let etapa = etapas[etapaAtualizada];
 
-    let votoConfirmado = false;
+    let votoConfirmado = false
     if(votoBranco === true) {
         console.log("Confirmando como BRANCO...");
     } else if(numero.length === etapa.numeros) {
