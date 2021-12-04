@@ -8,6 +8,7 @@ let numeros = document.querySelector('.d-1-3');
 let etapaAtual = 0;
 let numero = '';
 let votoBranco = false;
+let votos = [];
 
 function comecarEtapa() {
     let etapa = etapas[etapaAtual];
@@ -48,7 +49,11 @@ function atualizaInterface() {
 
         let fotosHtml = '';
         for(let i in candidato.fotos) {
-            fotosHtml += `<div class="d-1-image"><img src="img/${candidato.fotos[i].url}" alt="" >${candidato.fotos[i].legenda}</div>`;
+            if(candidato.fotos[i].small) {
+                fotosHtml += `<div class="d-1-image small"><img src="img/${candidato.fotos[i].url}" alt="" >${candidato.fotos[i].legenda}</div>`;
+            } else {
+                fotosHtml += `<div class="d-1-image"><img src="img/${candidato.fotos[i].url}" alt="" >${candidato.fotos[i].legenda}</div>`;
+            }
         }
 
         lateral.innerHTML = fotosHtml;
@@ -81,7 +86,7 @@ function branco() {
         numeros.innerHTML = '';
         descricao.innerHTML = '<div class="aviso--grande pisca">VOTO EM BRANCO</div>';
         lateral.innerHTML = '';
-
+ 
     } else {
         alert("Para votar em BRANCO, não pode ter digitado nenhum número!")
     }
@@ -90,13 +95,32 @@ function corrige () {
     comecarEtapa();
 }
 function confirma () {
-    let etapa = etapas[etapaAtualizada];
+    let etapa = etapas[etapaAtual];
 
-    let votoConfirmado = false
+    let votoConfirmado = false;
+    
     if(votoBranco === true) {
-        console.log("Confirmando como BRANCO...");
+        votoConfirmado = true;
+        votos.push({
+            etapa: etapas[etapaAtual].titulo,
+            voto: 'branco' 
+        });
     } else if(numero.length === etapa.numeros) {
-        console.log("Confirmando como número")
+        votoConfirmado = true;
+        votos.push({
+            etapa: etapas[etapaAtual].titulo,
+            voto: numero 
+        });
+    }
+
+    if (votoConfirmado) {
+        etapaAtual++;
+        if(etapas[etapaAtual] !== undefined) {
+            comecarEtapa();
+        } else {
+            document.querySelector('.tela').innerHTML = '<div class="aviso--gigante pisca">FIM</div>';
+            console.log(votos);
+        }
     }
 }
 
